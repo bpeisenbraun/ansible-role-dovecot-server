@@ -1,0 +1,6 @@
+---
+- name: restart_dovecot
+  service:
+    name: dovecot
+    state: restarted
+    enabled: yes

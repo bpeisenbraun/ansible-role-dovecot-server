@@ -1,0 +1,22 @@
+---
+- name: Install dovecot
+  apt:
+    name: dovecot-imapd
+    state: "{{ pkgversion|default('present') }}"
+
+- name: Copy Dovecot config into place
+  copy:
+    src: "etc/dovecot/conf.d/{{ item }}"
+    dest: "/etc/dovecot/conf.d/{{ item }}"
+    owner: root
+    group: root
+    mode: 0440
+  notify: restart_dovecot
+  with_items:
+    - 10-ssl.conf
+    - 10-auth.conf
+    - 10-mail.conf
+    - 10-master.conf
+    - 15-mailboxes.conf
+    - 20-imap.conf
+  tags: update-dovecot
